@@ -43,9 +43,33 @@
     width: 250px;
     height: 175px;
     margin: 1% 10%; }
+  .parking-spot-container .left {
+    border: black solid 3px;
+    border-right: none; }
+  .parking-spot-container .right {
+    border: black solid 3px;
+    border-left: none; }
   .parking-spot-container .empty {
     background-color: green; }
   .parking-spot-container .occupied {
     background-color: red; }
+
+.modal-dialog {
+  background-color: lightGrey;
+  width: 50%; }
+  .modal-dialog .exit-button {
+    margin-left: 96%;
+    margin-bottom: 2%; }
+  .modal-dialog .parking-form {
+    display: flex;
+    flex-direction: column; }
+    .modal-dialog .parking-form input {
+      width: 75%;
+      margin: 0.5% 12.5%;
+      padding: 1%; }
+    .modal-dialog .parking-form button {
+      width: 15%;
+      margin-left: 74%;
+      margin-bottom: 5%; }
 
 /*# sourceMappingURL=style.css.map */

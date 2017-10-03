@@ -14,8 +14,6 @@ class LotList extends Component {
   }
 
   render() {
-    console.log("lots array:")
-    console.log(this.props.parkingLots)
 
     const parking = this.props.parkingLots.map( lot => {
       return(

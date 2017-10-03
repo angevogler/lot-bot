@@ -60,11 +60,48 @@
     margin: 1% 10%;;
   }
 
+  .left {
+    border: black solid 3px;
+    border-right: none;
+  }
+
+  .right{
+    border: black solid 3px;
+    border-left: none;
+  }
+
   .empty {
     background-color: green;
   }
 
   .occupied {
     background-color: red;
+  }
+}
+
+.modal-dialog {
+  background-color: lightGrey;
+  width: 50%;
+
+  .exit-button {
+    margin-left: 96%;
+    margin-bottom: 2%;
+  }
+
+  .parking-form {
+    display: flex;
+    flex-direction: column;
+
+    input {
+      width: 75%;
+      margin: 0.5% 12.5%;
+      padding: 1%;
+    }
+
+    button {
+      width: 15%;
+      margin-left: 74%;
+      margin-bottom: 5%;
+    }
   }
 }
