@@ -49,3 +49,22 @@
     padding: 2%;
   }
 }
+
+.parking-spot-container {
+  display: flex;
+  flex-wrap: wrap;
+
+  .parking-spot {
+    width: 250px;
+    height: 175px;
+    margin: 1% 10%;;
+  }
+
+  .empty {
+    background-color: green;
+  }
+
+  .occupied {
+    background-color: red;
+  }
+}

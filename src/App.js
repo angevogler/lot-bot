@@ -4,7 +4,6 @@ import './styles/style.css';
 // import components
 import Home from './components/Home'
 import LotList from './components/LotList';
-import LotOverview from './components/LotOverview';
 import TransactionReport from './components/TransactionReport';
 
 // import browser router stuff
@@ -25,7 +24,7 @@ class App extends Component {
         </header>
         <main>
           <Switch>
-            <Route path="/lots/:id" component={LotOverview} />
+            <Route path="/lots/:id" component={LotList} />
             <Route path="/lots" component={LotList} />
             <Route path="/transactions" component={TransactionReport} />
             <Route path="/" component={Home} />

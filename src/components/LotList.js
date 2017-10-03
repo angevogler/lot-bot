@@ -1,38 +1,26 @@
 import React, { Component } from 'react';
 
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
 
+import { findLots } from '../actions';
 import LotOverview from './LotOverview';
 
 class LotList extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      lots: [],
-      spaces: 1,
-    }
-  }
 
   // fetch the list of lots when the page loads
   componentDidMount() {
-    fetch("https://rocky-forest-92987.herokuapp.com/lots")
-      .then(resp => resp.json())
-      .then(response => {
-        this.setState({
-          lots: response,
-        })
-      })
+    this.props.getAllLots()
   }
 
   render() {
     console.log("lots array:")
-    console.log(this.state.lots)
+    console.log(this.props.parkingLots)
 
-    const parking = this.state.lots.map( lot => {
+    const parking = this.props.parkingLots.map( lot => {
       return(
         <li key={lot.id}>
-          <Link to={"/lots:" + lot.id}>
+          <Link to={"/lots/" + lot.id}>
             <h3>Parking Lot {lot.id}</h3>
             <p>Total Spaces: <span>{lot.spaces.length}</span></p>
             <p>Occupied Spaces: <span>????</span></p>
@@ -40,6 +28,7 @@ class LotList extends Component {
         </li>
       )
     })
+
     return(
       <div className="lot-container">
         <div className="list-container">
@@ -48,12 +37,30 @@ class LotList extends Component {
             {parking}
           </ul>
         </div>
-        <div class="overview-container">
-          <LotOverview />
+        <div className="overview-container">
+          <LotOverview id={this.props.match.params.id}/>
         </div>
       </div>
     )
   }
 }
 
-export default LotList;
+function mapS2p(state) {
+  return {
+    parkingLots: state.parkingLots,
+  }
+}
+
+function mapD2P(dispatch) {
+  return {
+    getAllLots: function() {
+      fetch("https://rocky-forest-92987.herokuapp.com/lots")
+        .then(resp => resp.json())
+        .then(response => {
+          dispatch(findLots(response))
+        })
+    }
+  };
+}
+
+export default connect(mapS2p, mapD2P) (LotList);
