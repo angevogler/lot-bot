@@ -1,0 +1,51 @@
+.App {
+  background-image: url("http://idesktopwallpaper.com/wp-content/uploads/2016/08/galaxy-desktop-background-full-screen-wallpaper.jpg");
+}
+
+.App-header {
+  background-color: #628395;
+
+  .main-nav {
+    display: flex;
+    justify-content: space-between;
+    padding: 2%;
+
+    li {
+      list-style: none;
+
+      a {
+        text-decoration: none;
+        color: white;
+      }
+    }
+  }
+}
+
+.home-container {
+  width: 50%;
+  background-color: #628395;
+  opacity: 0.7;
+  padding: 3%;
+}
+
+.lot-container {
+  margin: 5% 10%;
+  width: 75%;
+  background-color: lightGrey;
+  opacity: 0.7;
+  padding: 3%;
+  display: flex;
+  justify-content: space-between;
+
+  .list-container {
+    background-color: #628395;
+    width: 20%;
+    padding: 2%;
+  }
+
+  .overview-container {
+    background-color: #628395;
+    width: 70%;
+    padding: 2%;
+  }
+}
