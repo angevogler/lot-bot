@@ -13,6 +13,10 @@ class LotOverview extends Component {
     this.state = {
       modalVisible: false,
       dock: -1,
+      spaceship: {
+        shipId: "",
+        color: "",
+      }
     }
   }
 
@@ -42,33 +46,81 @@ class LotOverview extends Component {
     }
   }
 
+  handleDock(event){
+    console.log("this is the lot overview event")
+    console.log(event);
+    console.log(event.shipId);
+    this.setState({
+      spaceship: {
+        shipId: event.shipId,
+        color: event.color
+      }
+    }, () => {
+      fetch('https://rocky-forest-92987.herokuapp.com/lots/' + this.props.id + "/" + this.state.dock, {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            spaceship: this.state.spaceship,
+        }),
+      })
+      .then( () => {
+            this.props.getOneLot(this.props.id)
+            this.setState({
+              modalVisible: false,
+              spaceship: {
+                shipId: "",
+                color: "",
+              }
+            })
+        }
+      )
+    })
+  }
+
   render() {
 
     const spots = this.props.parkingSpots.map( (spot, id) => {
-      if (spot === null && (id % 2) === 0) {
+      if (spot.gimmeCash === null && (id % 2) === 0) {
         return (
-          <div className="parking-spot empty left" key={id} value={id}
+          <div className="parking-spot empty left" key={id}
           onClick={ () => this.toggleModal(id) }>Dock #: {id}</div>
         )
-      } else if (spot === null && (id % 2) !== 0){
+      } else if (spot.gimmeCash === null && (id % 2) !== 0){
         return (
-          <div className="parking-spot empty right" key={id} value={id}
+          <div className="parking-spot empty right" key={id}
           onClick={ () => this.toggleModal(id) }>Dock #: {id}</div>
         )
       }
-      else if (spot !== null) {
+      else if (spot.gimmeCash !== null && (id % 2) === 0) {
         return (
-          <div className="parking-spot occupied" key={id}
-          onClick={ () => this.toggleModal(id) }>Dock #: {id}</div>
+          <div className="parking-spot occupied left" key={id}
+          onClick={ () => this.toggleModal(id) }>Dock #: {id}
+            <div className="plane-container">
+            <i className="fa fa-fighter-jet"></i>
+            </div>
+          </div>
+        )
+      } else if (spot.gimmeCash !== null && (id % 2) !== 0) {
+        return (
+          <div className="parking-spot occupied right" key={id}
+          onClick={ () => this.toggleModal(id) }>Dock #: {id}
+            <div className="plane-container">
+            <i className="fa fa-fighter-jet"></i>
+            </div>
+          </div>
         )
       }
     })
 
     if (this.state.modalVisible) {
+      console.log(this.props.parkingSpots[this.props.id].gimmeCash)
       return (
         <div>
-          <ModalDialog />
           <h1>Lot Overview - Lot {this.props.id}</h1>
+          <ModalDialog parked={"parked"} dock={this.state.dock} onChangeValue={ (event) => this.handleDock(event)}/>
           <div className="parking-spot-container">
             {spots}
           </div>

@@ -54,12 +54,24 @@
   .parking-spot-container .occupied {
     background-color: red; }
 
+.plane-container {
+  height: 150px; }
+
+.fa-fighter-jet {
+  font-size: 175px; }
+
 .modal-dialog {
+  position: fixed;
   background-color: lightGrey;
-  width: 50%; }
+  opacity: 1.0;
+  margin: 0 13%;
+  width: 25%;
+  z-index: 1; }
   .modal-dialog .exit-button {
     margin-left: 96%;
     margin-bottom: 2%; }
+  .modal-dialog h3 {
+    margin: 0.5% 12.5%; }
   .modal-dialog .parking-form {
     display: flex;
     flex-direction: column; }
