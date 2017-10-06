@@ -6,6 +6,7 @@ function reducer (state, action) {
     return {
       parkingLots: state.parkingLots.concat(action.payload),
       parkingSpots: state.parkingSpots,
+      transactions: state.transactions,
     }
   }
 
@@ -13,6 +14,15 @@ function reducer (state, action) {
     return {
       parkingLots: state.parkingLots,
       parkingSpots: action.payload,
+      transactions: state.transactions,
+    }
+  }
+
+  if (action.type === "FIND_CASH") {
+    return {
+      parkingLots: state.parkingLots,
+      parkingSpots: state.parkingSpots,
+      transactions: state.transactions.concat(action.payload),
     }
   }
 
@@ -22,4 +32,5 @@ function reducer (state, action) {
 export const store = createStore(reducer, {
   parkingLots: [],
   parkingSpots: [],
+  transactions: [],
 })

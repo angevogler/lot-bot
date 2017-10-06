@@ -9,12 +9,13 @@ import LotOverview from './LotOverview';
 class LotList extends Component {
 
   // fetch the list of lots when the page loads
+  // runs the get request when the page loads
   componentDidMount() {
     this.props.getAllLots()
   }
 
   render() {
-
+    // variable for the parking lot list
     const parking = this.props.parkingLots.map( lot => {
       return(
         <li key={lot.id}>
@@ -43,12 +44,15 @@ class LotList extends Component {
   }
 }
 
+// need to bring in parkingLots from redux
 function mapS2p(state) {
   return {
     parkingLots: state.parkingLots,
   }
 }
 
+
+// get request to update parkingLots state in redux
 function mapD2P(dispatch) {
   return {
     getAllLots: function() {

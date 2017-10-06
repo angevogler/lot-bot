@@ -11,3 +11,10 @@ export function findSpaces (spaces) {
     payload: spaces,
   }
 }
+
+export function findTransactions(cash) {
+  return {
+    type: "FIND_CASH",
+    payload: cash,
+  }
+}

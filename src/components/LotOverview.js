@@ -16,7 +16,8 @@ class LotOverview extends Component {
       spaceship: {
         shipId: "",
         color: "",
-      }
+      },
+      occupied: false,
     }
   }
 
@@ -28,16 +29,22 @@ class LotOverview extends Component {
     }
   }
 
+  // logic on when to display the modal
   toggleModal(id) {
+    // open the modal when you click on a parking space
     if (this.state.dock === -1) {
       this.setState({
         modalVisible: !this.state.modalVisible,
         dock: id,
       }, () => console.log("dock number: " + this.state.dock))
+    // if the modal is already opened and a new space is clicked on
+    // change the modal to correspond with that space
     } else if (this.state.dock !== -1 && this.state.dock !== id && this.state.modalVisible === true) {
       this.setState({
         dock: id,
       }, () => console.log("new dock number: " + this.state.dock))
+    // if the clicked space corresponds with the modal
+    // close the modal
     } else if (this.state.dock === id && this.state.modalVisible === true) {
       this.setState({
         modalVisible: !this.state.modalVisible,
@@ -46,16 +53,17 @@ class LotOverview extends Component {
     }
   }
 
+  // function to handle the docking/undocking of a spaceship
   handleDock(event){
-    console.log("this is the lot overview event")
-    console.log(event);
-    console.log(event.shipId);
+    // dock the spaceship
+    // set the state equal to be the input of the modal
     this.setState({
       spaceship: {
         shipId: event.shipId,
         color: event.color
-      }
+      },
     }, () => {
+      // post request to add the spaceship to the API
       fetch('https://rocky-forest-92987.herokuapp.com/lots/' + this.props.id + "/" + this.state.dock, {
         method: 'POST',
         headers: {
@@ -67,13 +75,15 @@ class LotOverview extends Component {
         }),
       })
       .then( () => {
+            // reset everything in the state and mark the space as occupied
             this.props.getOneLot(this.props.id)
             this.setState({
               modalVisible: false,
               spaceship: {
                 shipId: "",
                 color: "",
-              }
+              },
+              occupied: true,
             })
         }
       )
@@ -81,7 +91,7 @@ class LotOverview extends Component {
   }
 
   render() {
-
+    // variable describing which kind of spot to render
     const spots = this.props.parkingSpots.map( (spot, id) => {
       if (spot.gimmeCash === null && (id % 2) === 0) {
         return (
@@ -116,11 +126,10 @@ class LotOverview extends Component {
     })
 
     if (this.state.modalVisible) {
-      console.log(this.props.parkingSpots[this.props.id].gimmeCash)
       return (
         <div>
           <h1>Lot Overview - Lot {this.props.id}</h1>
-          <ModalDialog parked={"parked"} dock={this.state.dock} onChangeValue={ (event) => this.handleDock(event)}/>
+          <ModalDialog parked={this.state.occupied} dock={this.state.dock} onChangeValue={ (event) => this.handleDock(event)}/>
           <div className="parking-spot-container">
             {spots}
           </div>
@@ -139,6 +148,7 @@ class LotOverview extends Component {
   }
 }
 
+// need to get parkingLots and parkingSpots from redux
 function mapS2p(state) {
   return {
     parkingLots: state.parkingLots,
@@ -146,7 +156,7 @@ function mapS2p(state) {
   };
 }
 
-
+// send the parking spot data from the API to redux
 function mapD2P(dispatch) {
   return {
     getOneLot: function (lotId) {
